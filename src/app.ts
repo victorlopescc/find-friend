@@ -3,10 +3,9 @@ import fastifyCookie from '@fastify/cookie'
 import fastify from 'fastify'
 import { ZodError } from 'zod'
 import { env } from '@/env'
-import { sign } from 'crypto'
 
-// import org routes
-// import pets routes
+import { orgsRoutes } from '@/routes/orgs.routes'
+import { petsRoutes } from '@/routes/pets.routes'
 
 export const app = fastify()
 
@@ -17,8 +16,8 @@ app.register(fastifyJwt, {
 
 app.register(fastifyCookie)
 
-// register org routes
-// register pets routes
+app.register(orgsRoutes)
+app.register(petsRoutes)
 
 app.setErrorHandler((error, _, reply) => {
     if (error instanceof ZodError) return reply.status(400).send({ message: 'Validation error', issues: error.format() })

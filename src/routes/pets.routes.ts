@@ -1,10 +1,12 @@
 import { FastifyInstance } from 'fastify'
 import { verifyJwt } from '@/middlewares/jwt'
 
-// import pets controllers
+import { createPetController } from '@/controllers/pets/create-pet.controller'
+import { getPetController } from '@/controllers/pets/get-pet.controller'
+import { searchPetsController } from '@/controllers/pets/search.controller'
 
 export async function petsRoutes(app: FastifyInstance) {
-    // POST /orgs/pets
-    // GET /orgs/pets
-    // GET /orgs/pets/:id
+    app.post('/orgs/pets', { onRequest: [verifyJwt] }, createPetController)
+    app.get('/orgs/pets/:id', getPetController)
+    app.get('/orgs/pets', searchPetsController)
 }
